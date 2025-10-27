@@ -10,7 +10,7 @@ import java.time.LocalDate;
  * Catálogo de tipos de símbolos de ARIS
  */
 @Entity
-@Table(name = "sigapisymboltype", schema = "aris71adm")
+@Table(name = "sigapisymboltype")
 @Getter
 @Setter
 @NoArgsConstructor
