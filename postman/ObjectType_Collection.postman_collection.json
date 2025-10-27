@@ -1,0 +1,359 @@
+{
+	"info": {
+		"_postman_id": "b2c3d4e5-f6g7-4890-b2c3-d4e5f6g78901",
+		"name": "MS Catalog Symbol - ObjectType API",
+		"description": "Colección completa de endpoints para gestionar tipos de objetos (sigapiobjecttype)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Create Object Type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Response has success true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"",
+							"pm.test(\"Response has idObject\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.idObject).to.exist;",
+							"    pm.environment.set(\"objectId\", jsonData.data.idObject);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"apiName\": \"OBJ_FUNCTION\",\n  \"objectName\": \"Función\",\n  \"objectOrigName\": \"Function\",\n  \"isDefault\": 1,\n  \"isAssigned\": 1\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/object-types",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"object-types"
+					]
+				},
+				"description": "Crea un nuevo tipo de objeto en el catálogo"
+			},
+			"response": []
+		},
+		{
+			"name": "2. Get All Object Types",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/object-types",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"object-types"
+					]
+				},
+				"description": "Obtiene la lista completa de tipos de objeto"
+			},
+			"response": []
+		},
+		{
+			"name": "3. Get Object Type by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has idObject\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.idObject).to.exist;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/object-types/{{objectId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"object-types",
+						"{{objectId}}"
+					]
+				},
+				"description": "Obtiene un tipo de objeto específico por su ID"
+			},
+			"response": []
+		},
+		{
+			"name": "4. Get Object Type by API Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has correct apiName\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.apiName).to.exist;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/object-types/api-name/OBJ_FUNCTION",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"object-types",
+						"api-name",
+						"OBJ_FUNCTION"
+					]
+				},
+				"description": "Obtiene un tipo de objeto por su nombre API único"
+			},
+			"response": []
+		},
+		{
+			"name": "5. Search Object Types by Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/object-types/search?name=función",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"object-types",
+						"search"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "función"
+						}
+					]
+				},
+				"description": "Busca tipos de objeto cuyo nombre contenga el texto especificado"
+			},
+			"response": []
+		},
+		{
+			"name": "6. Get Default or Assigned Object Types",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/object-types/default-or-assigned",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"object-types",
+						"default-or-assigned"
+					]
+				},
+				"description": "Obtiene tipos de objeto que sean por defecto o estén asignados"
+			},
+			"response": []
+		},
+		{
+			"name": "7. Update Object Type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has lastUpdate\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.lastUpdate).to.exist;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"apiName\": \"OBJ_FUNCTION\",\n  \"objectName\": \"Función Actualizada\",\n  \"objectOrigName\": \"Function (Updated)\",\n  \"isDefault\": 1,\n  \"isAssigned\": 1\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/object-types/{{objectId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"object-types",
+						"{{objectId}}"
+					]
+				},
+				"description": "Actualiza un tipo de objeto existente"
+			},
+			"response": []
+		},
+		{
+			"name": "8. Delete Object Type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has success true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/object-types/{{objectId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"object-types",
+						"{{objectId}}"
+					]
+				},
+				"description": "Elimina un tipo de objeto del catálogo"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
+
