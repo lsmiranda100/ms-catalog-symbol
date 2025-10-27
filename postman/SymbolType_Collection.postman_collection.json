@@ -1,0 +1,385 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-4789-a1b2-c3d4e5f67890",
+		"name": "MS Catalog Symbol - SymbolType API",
+		"description": "Colección completa de endpoints para gestionar tipos de símbolos (sigapisymboltype)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12345678"
+	},
+	"item": [
+		{
+			"name": "1. Create Symbol Type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Response has success true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"",
+							"pm.test(\"Response has idSymbol\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.idSymbol).to.exist;",
+							"    pm.environment.set(\"symbolId\", jsonData.data.idSymbol);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"apiName\": \"SYM_FUNC_DEFAULT\",\n  \"symbolName\": \"Función (rectángulo)\",\n  \"symbolType\": \"FUNCTION\",\n  \"symbolOrigName\": \"Function (rectangle)\",\n  \"isDefault\": 1,\n  \"isAssigned\": 1\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/symbol-types",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"symbol-types"
+					]
+				},
+				"description": "Crea un nuevo tipo de símbolo en el catálogo"
+			},
+			"response": []
+		},
+		{
+			"name": "2. Create Symbol Type with Image",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"apiName\": \"SYM_EVENT_START\",\n  \"symbolName\": \"Evento inicio\",\n  \"symbolType\": \"EVENT\",\n  \"symbolOrigName\": \"Start event\",\n  \"isDefault\": 1,\n  \"isAssigned\": 1,\n  \"symbolImageBase64\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/symbol-types",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"symbol-types"
+					]
+				},
+				"description": "Crea un nuevo tipo de símbolo con imagen en Base64"
+			},
+			"response": []
+		},
+		{
+			"name": "3. Get All Symbol Types",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/symbol-types",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"symbol-types"
+					]
+				},
+				"description": "Obtiene todos los tipos de símbolos del catálogo"
+			},
+			"response": []
+		},
+		{
+			"name": "4. Get Symbol Type by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Symbol has correct ID\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.idSymbol).to.eql(parseInt(pm.environment.get('symbolId')));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/symbol-types/{{symbolId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"symbol-types",
+						"{{symbolId}}"
+					]
+				},
+				"description": "Obtiene un tipo de símbolo específico por su ID"
+			},
+			"response": []
+		},
+		{
+			"name": "5. Get Symbol Type by API Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/symbol-types/api-name/SYM_FUNC_DEFAULT",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"symbol-types",
+						"api-name",
+						"SYM_FUNC_DEFAULT"
+					]
+				},
+				"description": "Obtiene un tipo de símbolo por su nombre de API (apiName)"
+			},
+			"response": []
+		},
+		{
+			"name": "6. Search Symbol Types by Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/symbol-types/search?name=función",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"symbol-types",
+						"search"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "función",
+							"description": "Término de búsqueda (búsqueda parcial case-insensitive)"
+						}
+					]
+				},
+				"description": "Busca tipos de símbolo por nombre (búsqueda parcial case-insensitive)"
+			},
+			"response": []
+		},
+		{
+			"name": "7. Get Symbol Types by Type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/symbol-types/by-type/FUNCTION",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"symbol-types",
+						"by-type",
+						"FUNCTION"
+					]
+				},
+				"description": "Obtiene todos los símbolos de un tipo específico (FUNCTION, EVENT, DECISION, etc.)"
+			},
+			"response": []
+		},
+		{
+			"name": "8. Get Default or Assigned Symbol Types",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/symbol-types/default-or-assigned",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"symbol-types",
+						"default-or-assigned"
+					]
+				},
+				"description": "Obtiene todos los símbolos que son por defecto (isDefault=1) o están asignados (isAssigned=1)"
+			},
+			"response": []
+		},
+		{
+			"name": "9. Update Symbol Type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Symbol was updated\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"    pm.expect(jsonData.data.symbolName).to.include('actualizada');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"apiName\": \"SYM_FUNC_DEFAULT\",\n  \"symbolName\": \"Función actualizada\",\n  \"symbolType\": \"FUNCTION\",\n  \"symbolOrigName\": \"Function (updated)\",\n  \"isDefault\": 1,\n  \"isAssigned\": 1\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/symbol-types/{{symbolId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"symbol-types",
+						"{{symbolId}}"
+					]
+				},
+				"description": "Actualiza un tipo de símbolo existente"
+			},
+			"response": []
+		},
+		{
+			"name": "10. Delete Symbol Type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Symbol was deleted\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/symbol-types/{{symbolId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"symbol-types",
+						"{{symbolId}}"
+					]
+				},
+				"description": "Elimina un tipo de símbolo del catálogo"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "symbolId",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
+
+
