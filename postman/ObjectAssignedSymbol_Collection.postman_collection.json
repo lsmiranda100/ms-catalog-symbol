@@ -1,0 +1,417 @@
+{
+	"info": {
+		"_postman_id": "object-assigned-symbol-collection",
+		"name": "ObjectAssignedSymbol API Collection",
+		"description": "Colección completa de endpoints para gestionar asignaciones de objetos a símbolos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Create Assignment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Response has success true\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});",
+							"",
+							"pm.test(\"Assignment ID is returned\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.idObjectAssigned).to.be.a('number');",
+							"    pm.collectionVariables.set(\"assignmentId\", jsonData.data.idObjectAssigned);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idSymbol\": 1,\n    \"idObject\": 1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/object-assigned-symbols",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"object-assigned-symbols"
+					]
+				},
+				"description": "Crea una nueva asignación de objeto a símbolo"
+			},
+			"response": []
+		},
+		{
+			"name": "2. Get All Assignments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/object-assigned-symbols",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"object-assigned-symbols"
+					]
+				},
+				"description": "Obtiene todas las asignaciones"
+			},
+			"response": []
+		},
+		{
+			"name": "3. Get Assignment by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Assignment data is returned\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.have.property('idObjectAssigned');",
+							"    pm.expect(jsonData.data).to.have.property('idSymbol');",
+							"    pm.expect(jsonData.data).to.have.property('idObject');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/object-assigned-symbols/{{assignmentId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"object-assigned-symbols",
+						"{{assignmentId}}"
+					]
+				},
+				"description": "Obtiene una asignación específica por ID"
+			},
+			"response": []
+		},
+		{
+			"name": "4. Get Assignments by Symbol ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/object-assigned-symbols/by-symbol/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"object-assigned-symbols",
+						"by-symbol",
+						"1"
+					]
+				},
+				"description": "Obtiene todas las asignaciones de un símbolo específico"
+			},
+			"response": []
+		},
+		{
+			"name": "5. Get Assignments by Object ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is an array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/object-assigned-symbols/by-object/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"object-assigned-symbols",
+						"by-object",
+						"1"
+					]
+				},
+				"description": "Obtiene todas las asignaciones de un objeto específico"
+			},
+			"response": []
+		},
+		{
+			"name": "6. Update Assignment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Assignment is updated\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"    pm.expect(jsonData.message).to.include('actualizada');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idSymbol\": 2,\n    \"idObject\": 2\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/object-assigned-symbols/{{assignmentId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"object-assigned-symbols",
+						"{{assignmentId}}"
+					]
+				},
+				"description": "Actualiza una asignación existente"
+			},
+			"response": []
+		},
+		{
+			"name": "7. Delete Assignment by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Assignment is deleted\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"    pm.expect(jsonData.message).to.include('eliminada');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/object-assigned-symbols/{{assignmentId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"object-assigned-symbols",
+						"{{assignmentId}}"
+					]
+				},
+				"description": "Elimina una asignación por su ID"
+			},
+			"response": []
+		},
+		{
+			"name": "8. Delete Assignments by Symbol ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Assignments are deleted\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/object-assigned-symbols/by-symbol/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"object-assigned-symbols",
+						"by-symbol",
+						"1"
+					]
+				},
+				"description": "Elimina todas las asignaciones de un símbolo"
+			},
+			"response": []
+		},
+		{
+			"name": "9. Delete Assignments by Object ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Assignments are deleted\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.success).to.eql(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/object-assigned-symbols/by-object/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"object-assigned-symbols",
+						"by-object",
+						"1"
+					]
+				},
+				"description": "Elimina todas las asignaciones de un objeto"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "assignmentId",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
+
